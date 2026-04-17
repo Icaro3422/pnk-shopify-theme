@@ -1,0 +1,55 @@
+<header class="header">
+  <div class="header-logo">
+    <i class="fa-solid fa-gem" style="color: var(--primary);"></i>
+    <span style="color: var(--primary);">PNK</span>
+  </div>
+
+  <div class="header-search">
+    <form action="{{ routes.search_url }}" method="get" role="search">
+      <i class="fas fa-search"></i>
+      <input type="text" name="q" placeholder="Buscar accesorios..." aria-label="Buscar accessories">
+    </form>
+  </div>
+
+  <nav class="header-nav">
+    {%- for link in section.settings.menu.links -%}
+      <a href="{{ link.url }}" class="{% if link.active %}active{% endif %}">
+        {{ link.title }}
+      </a>
+    {%- endfor -%}
+  </nav>
+
+  <div class="header-actions">
+    <a href="{{ routes.cart_url }}" class="cart-icon" aria-label="Carrito">
+      <i class="fa-solid fa-bag-shopping"></i>
+      {%- if cart.item_count > 0 -%}
+        <span class="cart-badge">{{ cart.item_count }}</span>
+      {%- endif -%}
+    </a>
+    
+    <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="btn-my-account">
+      <i class="fa-solid fa-user"></i>
+      <span>Mi Cuenta</span>
+    </a>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:sections.header.settings.logo.label"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "t:sections.header.settings.menu.label"
+    }
+  ]
+}
+{% endschema %}

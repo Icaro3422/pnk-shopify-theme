@@ -1,0 +1,100 @@
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>{{ shop.name }}</h4>
+      <p style="font-size:0.85rem;line-height:1.6;">Accesorios diseñados con amor para mujeres que no tienen miedo de brillar.</p>
+      {%- if section.settings.show_social -%}
+        <div class="footer-social">
+          {%- if settings.social_instagram_link != blank -%}
+            <a href="{{ settings.social_instagram_link }}"><i class="fab fa-instagram"></i></a>
+          {%- endif -%}
+          {%- if settings.social_facebook_link != blank -%}
+            <a href="{{ settings.social_facebook_link }}"><i class="fab fa-facebook-f"></i></a>
+          {%- endif -%}
+          {%- if settings.social_tiktok_link != blank -%}
+            <a href="{{ settings.social_tiktok_link }}"><i class="fab fa-tiktok"></i></a>
+          {%- endif -%}
+          {%- if settings.social_pinterest_link != blank -%}
+            <a href="{{ settings.social_pinterest_link }}"><i class="fab fa-pinterest-p"></i></a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+    
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'link_list' -%}
+          <div class="footer-col">
+            <h4>{{ block.settings.heading }}</h4>
+            <ul>
+              {%- for link in block.settings.menu.links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- when 'text' -%}
+          <div class="footer-col">
+            <h4>{{ block.settings.heading }}</h4>
+            <div class="rte">
+              {{ block.settings.subtext }}
+            </div>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+  <div class="footer-bottom">
+    © {{ 'now' | date: "%Y" }} {{ shop.name }}. Todos los derechos reservados.
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "blocks": [
+    {
+      "type": "link_list",
+      "name": "t:sections.footer.blocks.link_list.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Quick links",
+          "label": "t:sections.footer.blocks.link_list.settings.heading.label"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "default": "footer",
+          "label": "t:sections.footer.blocks.link_list.settings.menu.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.footer.blocks.text.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Heading",
+          "label": "t:sections.footer.blocks.text.settings.heading.label"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "default": "<p>Share contact information, store details, and brand content with your customers.</p>",
+          "label": "t:sections.footer.blocks.text.settings.subtext.label"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "default": true,
+      "label": "t:sections.footer.settings.show_social.label"
+    }
+  ]
+}
+{% endschema %}

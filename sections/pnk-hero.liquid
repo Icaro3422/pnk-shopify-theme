@@ -1,0 +1,62 @@
+<div class="section-card">
+  <div class="hero" style="background: linear-gradient(135deg, {{ section.settings.bg_color_1 }} 0%, {{ section.settings.bg_color_2 }} 100%); padding: 60px 40px; border-radius: 0; min-height: 300px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; position: relative;">
+    <h1 style="font-size: 2.5rem; margin-bottom: 15px;">{{ section.settings.title }}</h1>
+    <p style="max-width: 450px; font-size: 1.1rem; opacity: 0.9; margin-bottom: 30px;">{{ section.settings.subtitle }}</p>
+    <a href="{{ section.settings.button_link }}" class="btn btn-outline" style="border-color:white;color:white; border-radius: 50px; padding: 12px 24px;">
+      {{ section.settings.button_label }} <i class="fas fa-arrow-right"></i>
+    </a>
+    <div style="position: absolute; right: 40px; top: 50%; transform: translateY(-50%); opacity: 0.2; font-size: 12rem;">
+      <i class="fas fa-heart"></i>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "PNK Hero Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Accesorios con Actitud ♥"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Descubre nuestra nueva colección de accesorios diseñados para resaltar tu estilo único."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Etiqueta del botón",
+      "default": "Ver Colección"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Enlace del botón"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_1",
+      "label": "Color de fondo 1",
+      "default": "#E91E63"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_2",
+      "label": "Color de fondo 2",
+      "default": "#FF6F91"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PNK Hero Banner"
+    }
+  ]
+}
+{% endschema %}

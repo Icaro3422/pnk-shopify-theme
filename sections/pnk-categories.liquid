@@ -1,0 +1,84 @@
+<div class="pnk-section">
+  <div class="section-header">
+    <h2>{{ section.settings.title }}</h2>
+  </div>
+  <div class="categories-scroll">
+    {%- for block in section.blocks -%}
+      <a href="{{ block.settings.collection.url | default: '#' }}" class="category-item">
+        <div class="category-icon" style="background: var(--primary-bg); color: var(--primary); padding: 20px; border-radius: var(--radius-lg); text-align: center; font-size: 2rem; margin-bottom: 12px;">
+          {%- if block.settings.icon != blank -%}
+            <i class="{% if block.settings.icon contains 'fa-' %}{{ block.settings.icon }}{% else %}fas fa-gem{% endif %}"></i>
+          {%- else -%}
+            <i class="fas fa-gem"></i>
+          {%- endif -%}
+        </div>
+        <span style="font-weight: 500; font-size: 0.9rem;">{{ block.settings.title | default: block.settings.collection.title }}</span>
+      </a>
+    {%- else -%}
+      <p>Añade bloques de subcategorías aquí.</p>
+    {%- endfor -%}
+  </div>
+</div>
+
+<style>
+.categories-scroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 16px;
+  scrollbar-width: thin;
+}
+.category-item {
+  min-width: 120px;
+  text-align: center;
+  transition: var(--transition);
+}
+.category-item:hover .category-icon {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow);
+}
+</style>
+
+{% schema %}
+{
+  "name": "PNK Categories",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Categorías Destacadas"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Categoría",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Colección"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título opcional"
+        },
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icono (FontAwesome clase, ej. 'fas fa-ring')"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "PNK Categories"
+    }
+  ]
+}
+{% endschema %}
