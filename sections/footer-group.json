@@ -3,17 +3,17 @@
   "type": "footer",
   "sections": {
     "footer": {
-      "type": "footer",
+      "type": "footer-pnk",
       "blocks": {
         "footer-0": {
-          "type": "link_list",
+          "type": "menu_column",
           "settings": {
             "heading": "Quick links",
             "menu": "footer"
           }
         },
         "footer-1": {
-          "type": "link_list",
+          "type": "menu_column",
           "settings": {
             "heading": "Info",
             "menu": "footer"
