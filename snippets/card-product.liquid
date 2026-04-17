@@ -40,7 +40,7 @@
       assign ratio = 1
     endif
   -%}
-  <div class="card-wrapper product-card-wrapper underline-links-hover">
+  <div class="card-wrapper product-card-wrapper underline-links-hover card-pnk">
     <div
       class="
         card card--{{ settings.card_style }}
@@ -129,14 +129,14 @@
             {%- if card_product.available == false -%}
               <span class="badge badge-sold-out">{{ 'products.product.sold_out' | t }}</span>
             {%- else -%}
-              {%- if card_product.tags contains 'Nuevo' -%}
-                <span class="badge badge-new">Nuevo</span>
+              {%- if card_product.tags contains 'nuevo' or card_product.tags contains 'Nuevo' -%}
+                <span class="badge badge-new">NUEVO</span>
               {%- endif -%}
               {%- if card_product.compare_at_price > card_product.price -%}
-                <span class="badge badge-sale">Oferta</span>
+                <span class="badge badge-sale">OFERTA</span>
               {%- endif -%}
-              {%- if card_product.tags contains 'Popular' -%}
-                <span class="badge badge-popular">Popular</span>
+              {%- if card_product.tags contains 'popular' or card_product.tags contains 'Popular' -%}
+                <span class="badge badge-popular">POPULAR</span>
               {%- endif -%}
             {%- endif -%}
           </div>
@@ -369,7 +369,8 @@
                   >
                     <span>
                       {%- if card_product.selected_or_first_available_variant.available -%}
-                        {{ 'products.product.add_to_cart' | t }}
+                        {% comment %} Using 'Agregar' as requested {% endcomment %}
+                        Agregar
                       {%- else -%}
                         {{ 'products.product.sold_out' | t }}
                       {%- endif -%}

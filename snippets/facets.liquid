@@ -114,9 +114,14 @@
                 <h3 class="facets__heading facets__heading--vertical caption-large text-body">Categorías</h3>
                 <ul class="facets__list list-unstyled sidebar-menu-list">
                   {%- for link in sidebar_menu.links -%}
+                    {%- assign collection_handle = link.url | split: '/collections/' | last -%}
+                    {%- assign sidebar_collection = collections[collection_handle] -%}
                     <li class="list-menu__item facets__item">
-                      <a href="{{ link.url }}" class="facets__label facet-checkbox{% if link.active %} active{% endif %}" style="text-decoration: none; display: block; padding: 10px 0;">
-                        {{ link.title }}
+                      <a href="{{ link.url }}" class="facets__label facet-checkbox{% if link.active %} active{% endif %}" style="text-decoration: none; display: flex; justify-content: space-between; padding: 10px 0;">
+                        <span>{{ link.title }}</span>
+                        {%- if sidebar_collection != blank -%}
+                          <span class="count" style="color: #ff4d8d; font-weight: 700;">({{ sidebar_collection.all_products_count }})</span>
+                        {%- endif -%}
                       </a>
                     </li>
                   {%- endfor -%}
@@ -344,7 +349,14 @@
                         {%- endif -%}
                       </div>
                       <price-range class="facets__price">
-                        {% render 'price-facet', filter: filter, id_prefix: 'Filter-', filter_type: filter_type %}
+                        <div class="facets__price-inputs">
+                          {% render 'price-facet', filter: filter, id_prefix: 'Filter-', filter_type: filter_type %}
+                        </div>
+                        {%- if filter_type == 'vertical' -%}
+                          <button type="submit" class="button button--primary button--full-width facets__price-apply" style="margin-top: 15px; border-radius: 50px; background-color: #ff4d8d; border: none; font-weight: 700;">
+                            Aplicar filtro
+                          </button>
+                        {%- endif -%}
                       </price-range>
                     </div>
                   </details>
