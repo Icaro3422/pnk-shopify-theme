@@ -18,24 +18,25 @@
   {%- assign hide_shop_login_button = true -%}
 {%- endif -%}
 
-<div class="auth-wrapper">
-  <div class="customer login card auth-card section-{{ section.id }}-padding">
-    <div class="auth-logo">
-      <i class="fas fa-crown"></i>
-      <h2>PNK</h2>
+<div class="auth-wrapper pnk-login-wrapper">
+  <div class="customer login card auth-card section-{{ section.id }}-padding pnk-login-card">
+    <div class="auth-logo pnk-auth-logo">
+      <img src="{{ 'pnk-logo-v2.png' | asset_url }}" alt="PNK" class="pnk-logo-image" width="4992" height="2675">
     </div>
 
-    <h1 id="recover" tabindex="-1" style="display:none;">
+    <h1 id="recover" tabindex="-1" style="display:none;" class="pnk-auth-title">
       {{ 'customer.recover_password.title' | t }}
     </h1>
-    <div id="recover-form" style="display:none;">
-      <p>
+    <div id="recover-form" style="display:none;" class="pnk-auth-form">
+      <p style="text-align: center; color: var(--gray); font-size: 0.95rem; margin-bottom: 25px;">
         {{ 'customer.recover_password.subtext' | t }}
       </p>
 
       {%- form 'recover_customer_password' -%}
         {% assign recover_success = form.posted_successfully? %}
-        <div class="field">
+        
+        <div class="pnk-field">
+          <label for="RecoverEmail">{{ 'customer.login_page.email' | t }}</label>
           <input
             type="email"
             value=""
@@ -49,69 +50,47 @@
               aria-describedby="RecoverEmail-email-error"
               autofocus
             {% endif %}
-            placeholder="{{ 'customer.login_page.email' | t }}"
+            placeholder="marla@email.com"
           >
-          <label for="RecoverEmail">
-            {{ 'customer.login_page.email' | t }}
-          </label>
         </div>
         {%- if form.errors -%}
-          <small id="RecoverEmail-email-error" class="form__message">
-            <span class="svg-wrapper">
-              {{- 'icon-error.svg' | inline_asset_content -}}
-            </span>
+          <small id="RecoverEmail-email-error" class="form__message pnk-form-error">
             {{ form.errors.messages.form }}
           </small>
         {%- endif -%}
 
-        <button>
+        <button class="pnk-btn-primary">
           {{ 'customer.login_page.submit' | t }}
         </button>
 
-        <a href="#login" onclick="document.getElementById('recover-form').style.display='none'; document.getElementById('login-form').style.display='block';">
-          {{ 'customer.login_page.cancel' | t }}
-        </a>
+        <div class="pnk-form-footer" style="text-align: center; margin-top: 15px;">
+          <a href="#login" onclick="document.getElementById('recover-form').style.display='none'; document.getElementById('login-form').style.display='block'; return false;" style="color: var(--primary); font-weight: 500;">
+            {{ 'customer.login_page.cancel' | t }}
+          </a>
+        </div>
       {%- endform -%}
     </div>
 
-    <div id="login-form">
-      <h1 id="login" tabindex="-1">
-        {{ 'customer.login_page.title' | t }}
+    <div id="login-form" class="pnk-auth-form">
+      <h1 id="login" tabindex="-1" class="pnk-auth-title">
+        Iniciar Sesión
       </h1>
       <div>
         {%- if recover_success == true -%}
-          <h3 class="form__message" tabindex="-1" autofocus>
-            <span class="svg-wrapper">
-              {{- 'icon-success.svg' | inline_asset_content -}}
-            </span>
+          <h3 class="form__message pnk-form-success" tabindex="-1" autofocus>
             {{ 'customer.recover_password.success' | t }}
           </h3>
         {%- endif -%}
+        
         {%- form 'customer_login', novalidate: 'novalidate' -%}
           {%- if form.errors -%}
-            <h2 class="form__message" tabindex="-1" autofocus>
-              <span class="visually-hidden">{{ 'accessibility.error' | t }} </span>
-              <span class="svg-wrapper">
-                {{- 'icon-error.svg' | inline_asset_content -}}
-              </span>
+            <h2 class="form__message pnk-form-error" tabindex="-1" autofocus>
               {{ 'templates.contact.form.error_heading' | t }}
             </h2>
-            {{ form.errors | default_errors }}
           {%- endif -%}
 
-          {%- if shop.features.login_with_shop_classic_customer_accounts? -%}
-            <section name="sign-in-with-shop-provider">
-              {{ shop | login_button: hide_button: hide_shop_login_button }}
-
-              {%- unless hide_shop_login_button -%}
-                <p>
-                  {{ 'customer.login_page.alternate_provider_separator' | t }}
-                </p>
-              {%- endunless -%}
-            </section>
-          {%- endif -%}
-
-          <div class="field">
+          <div class="pnk-field">
+            <label for="CustomerEmail">Correo electrónico</label>
             <input
               type="email"
               name="customer[email]"
@@ -122,15 +101,13 @@
               {% if form.errors contains 'form' %}
                 aria-invalid="true"
               {% endif %}
-              placeholder="{{ 'customer.login_page.email' | t }}"
+              placeholder="marla@email.com"
             >
-            <label for="CustomerEmail">
-              {{ 'customer.login_page.email' | t }}
-            </label>
           </div>
 
           {%- if form.password_needed -%}
-            <div class="field">
+            <div class="pnk-field">
+              <label for="CustomerPassword">Contraseña</label>
               <input
                 type="password"
                 value=""
@@ -140,43 +117,47 @@
                 {% if form.errors contains 'form' %}
                   aria-invalid="true"
                 {% endif %}
-                placeholder="{{ 'customer.login_page.password' | t }}"
+                placeholder="********"
               >
-              <label for="CustomerPassword">
-                {{ 'customer.login_page.password' | t }}
-              </label>
             </div>
 
-            <a href="#recover" onclick="document.getElementById('login-form').style.display='none'; document.getElementById('recover-form').style.display='block';">
-              {{ 'customer.login_page.forgot_password' | t }}
-            </a>
+            <div class="pnk-form-options">
+              <label class="pnk-checkbox-label">
+                <input type="checkbox" name="remember" class="pnk-checkbox">
+                Recordarme
+              </label>
+              <a href="#recover" onclick="document.getElementById('login-form').style.display='none'; document.getElementById('recover-form').style.display='block'; return false;" class="pnk-link">
+                ¿Olvidaste tu contraseña?
+              </a>
+            </div>
           {%- endif -%}
 
-          <button>
-            {{ 'customer.login_page.sign_in' | t }}
+          <button class="pnk-btn-primary">
+            Iniciar Sesión
           </button>
 
-          <div style="margin-top: 2rem; font-size: 0.9rem;">
-            {{ 'customer.login_page.create_account' | t | customer_register_link }}
+          <div class="pnk-separator">
+            <span>o continúa con</span>
+          </div>
+
+          <div class="pnk-social-buttons">
+            <button type="button" class="pnk-btn-social pnk-btn-google">
+              <i class="fab fa-google"></i> Google
+            </button>
+            <button type="button" class="pnk-btn-social pnk-btn-facebook">
+              <i class="fab fa-facebook-f"></i> Facebook
+            </button>
+          </div>
+
+          <div class="pnk-form-footer">
+            ¿No tienes cuenta? <a href="{{ routes.account_register_url }}" class="pnk-link">Regístrate aquí</a>
           </div>
         {%- endform -%}
       </div>
     </div>
-
-    {%- if shop.checkout.guest_login -%}
-      <div>
-        <hr>
-        <h2>{{ 'customer.login_page.guest_title' | t }}</h2>
-
-        {%- form 'guest_login' -%}
-          <button>
-            {{ 'customer.login_page.guest_continue' | t }}
-          </button>
-        {%- endform -%}
-      </div>
-    {%- endif -%}
   </div>
 </div>
+
 
 {% schema %}
 {
