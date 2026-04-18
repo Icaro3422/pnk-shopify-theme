@@ -14,62 +14,61 @@
   }
 {%- endstyle -%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient">
-  <div class="contact page-width page-width--narrow section-{{ section.id }}-padding">
+<div class="color-{{ section.settings.color_scheme }} gradient" style="background-color: var(--gray-bg, #F9F9F9); padding: 60px 20px;">
+  <div class="auth-card" style="max-width: 600px; margin: 0 auto;">
+    
     {%- if section.settings.heading != blank -%}
-      <h2 class="title title-wrapper--no-top-margin inline-richtext {{ section.settings.heading_size }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}">
-        {{ section.settings.heading }}
-      </h2>
+      <div class="auth-box" style="text-align: center;">
+        <h2 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 24px; color: var(--dark, #2D2D2D);">
+          {{ section.settings.heading }}
+        </h2>
+      </div>
     {%- else -%}
       <h2 class="visually-hidden">{{ 'templates.contact.form.title' | t }}</h2>
     {%- endif -%}
-    {%- liquid
-      assign contact_form_class = 'isolate'
-      if settings.animations_reveal_on_scroll
-        assign contact_form_class = 'isolate scroll-trigger animate--slide-in'
-      endif
-    -%}
-    {%- form 'contact', id: 'ContactForm', class: contact_form_class -%}
+
+    {%- form 'contact', id: 'ContactForm' -%}
       {%- if form.posted_successfully? -%}
-        <h2 class="form-status form-status-list form__message" tabindex="-1" autofocus>
-          {{- 'icon-success.svg' | inline_asset_content -}}
+        <div style="color:var(--success);background:#E8F5E9;padding:12px;border-radius:8px;font-size:0.95rem;margin-bottom:20px;text-align:center;">
           {{ 'templates.contact.form.post_success' | t }}
-        </h2>
-      {%- elsif form.errors -%}
-        <div class="form__message">
-          <h2 class="form-status caption-large text-body" role="alert" tabindex="-1" autofocus>
-            {{- 'icon-error.svg' | inline_asset_content -}}
-            {{ 'templates.contact.form.error_heading' | t }}
-          </h2>
         </div>
-        <ul class="form-status-list caption-large" role="list">
-          <li>
-            <a href="#ContactForm-email" class="link">
-              {{ form.errors.translated_fields.email | capitalize }}
-              {{ form.errors.messages.email }}
-            </a>
-          </li>
-        </ul>
+      {%- elsif form.errors -%}
+        <div style="color:var(--danger);background:#FFEBEE;padding:12px;border-radius:8px;font-size:0.95rem;margin-bottom:20px;">
+          <strong>{{ 'templates.contact.form.error_heading' | t }}</strong>
+          <ul style="margin-top:8px; padding-left:20px; font-size:0.85rem;">
+            <li>
+              <a href="#ContactForm-email" style="color:var(--danger);">
+                {{ form.errors.translated_fields.email | capitalize }}
+                {{ form.errors.messages.email }}
+              </a>
+            </li>
+          </ul>
+        </div>
       {%- endif -%}
-      <div class="contact__fields">
-        <div class="field">
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
           <input
-            class="field__input"
+            class="form-control"
             autocomplete="name"
             type="text"
             id="ContactForm-name"
             name="contact[{{ 'templates.contact.form.name' | t }}]"
             value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-            placeholder="{{ 'templates.contact.form.name' | t }}"
+            placeholder="Ej. Camila Pérez"
           >
-          <label class="field__label" for="ContactForm-name">{{ 'templates.contact.form.name' | t }}</label>
         </div>
-        <div class="field field--with-error">
+        
+        <div class="form-group" style="margin-bottom: 0;">
+          <label for="ContactForm-email">
+            {{- 'templates.contact.form.email' | t }} <span aria-hidden="true" style="color:var(--primary);">*</span>
+          </label>
           <input
             autocomplete="email"
             type="email"
             id="ContactForm-email"
-            class="field__input"
+            class="form-control"
             name="contact[email]"
             spellcheck="false"
             autocapitalize="off"
@@ -78,62 +77,118 @@
             {% if form.errors contains 'email' %}
               aria-invalid="true"
               aria-describedby="ContactForm-email-error"
+              style="border-color: var(--danger);"
             {% endif %}
-            placeholder="{{ 'templates.contact.form.email' | t }}"
+            placeholder="tu@email.com"
           >
-          <label class="field__label" for="ContactForm-email">
-            {{- 'templates.contact.form.email' | t }}
-            <span aria-hidden="true">*</span></label
-          >
-          {%- if form.errors contains 'email' -%}
-            <small class="contact__field-error" id="ContactForm-email-error">
-              <span class="visually-hidden">{{ 'accessibility.error' | t }}</span>
-              <span class="form__message">
-                <span class="svg-wrapper">
-                  {{- 'icon-error.svg' | inline_asset_content -}}
-                </span>
-                {{- form.errors.translated_fields.email | capitalize }}
-                {{ form.errors.messages.email -}}
-              </span>
-            </small>
-          {%- endif -%}
         </div>
       </div>
-      <div class="field">
+
+      <div class="form-group">
+        <label for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
         <input
           type="tel"
           id="ContactForm-phone"
-          class="field__input"
+          class="form-control"
           autocomplete="tel"
           name="contact[{{ 'templates.contact.form.phone' | t }}]"
           pattern="[0-9\-]*"
           value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-          placeholder="{{ 'templates.contact.form.phone' | t }}"
+          placeholder="Ej. 123-456-7890"
         >
-        <label class="field__label" for="ContactForm-phone">{{ 'templates.contact.form.phone' | t }}</label>
       </div>
-      <div class="field">
+
+      <div class="form-group">
+        <label for="ContactForm-body">{{ 'templates.contact.form.comment' | t }}</label>
         <textarea
-          rows="10"
+          rows="5"
           id="ContactForm-body"
-          class="text-area field__input"
+          class="form-control"
           name="contact[{{ 'templates.contact.form.comment' | t }}]"
-          placeholder="{{ 'templates.contact.form.comment' | t }}"
+          placeholder="Escribe aquí tu mensaje..."
+          style="resize: vertical; min-height: 120px;"
         >
           {{- form.body -}}
         </textarea>
-        <label class="form__label field__label" for="ContactForm-body">
-          {{- 'templates.contact.form.comment' | t -}}
-        </label>
       </div>
-      <div class="contact__button">
-        <button type="submit" class="button">
+
+      <div class="contact__button" style="margin-top: 24px;">
+        <button type="submit" class="btn btn-primary btn-block btn-lg" style="width: 100%;">
           {{ 'templates.contact.form.send' | t }}
         </button>
       </div>
     {%- endform -%}
   </div>
 </div>
+
+<style>
+/* Estilos extraídos de layout auth para form-control si no existen globalmente */
+.auth-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 40px 32px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #2D2D2D;
+}
+.form-control {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #E0E0E0;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+.form-control:focus {
+  border-color: #E91E63;
+  box-shadow: 0 0 0 4px rgba(233,30,99,0.1);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 8px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-size: 1rem;
+}
+.btn-primary {
+  background: #E91E63;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #C2185B;
+  transform: translateY(-2px);
+}
+.btn-lg {
+  padding: 14px 32px;
+}
+.btn-block {
+  width: 100%;
+}
+@media screen and (max-width: 768px) {
+  .auth-card {
+    padding: 32px 24px;
+  }
+  .form-group[style*="margin-bottom: 0"] {
+    margin-bottom: 20px !important;
+  }
+  div[style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+}
+</style>
 
 {% schema %}
 {
