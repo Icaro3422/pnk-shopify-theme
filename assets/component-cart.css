@@ -222,49 +222,66 @@ cart-items {
   }
 @media screen and (min-width: 990px) {
   body.template-cart .content-for-layout {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 40px;
     align-items: flex-start;
     max-width: var(--page-width);
-    margin: 0 auto;
+    margin: 40px auto;
     padding: 0 5rem;
   }
 
   /* Cart Items Column */
-  #shopify-section-cart-items {
-    flex: 0 0 calc(65% - 15px);
-    width: 65%;
-  }
-
-  /* Cart Footer Column */
-  #shopify-section-cart-footer {
-    flex: 0 0 calc(35% - 15px);
-    width: 35%;
-    margin-top: 0 !important;
-  }
-
-  /* Featured Collection (Full Width below) */
-  #shopify-section-featured-collection {
-    flex: 0 0 100%;
+  [id*="cart-items"] {
+    grid-column: 1;
     width: 100%;
   }
 
-  /* Adjust internal spacings for a cleaner look */
+  /* Cart Footer Column */
+  [id*="cart-footer"] {
+    grid-column: 2;
+    width: 100%;
+    position: sticky;
+    top: 120px;
+  }
+
+  /* Featured Collection (Full Width below) */
+  [id*="featured-collection"] {
+    grid-column: 1 / span 2;
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  /* Compact Footer Card */
   .cart__footer {
      width: 100% !important;
+     max-width: 100% !important;
      padding: 2.4rem !important;
      background: #fff;
      border-radius: 16px;
-     box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+     box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+     border: 1px solid rgba(var(--color-foreground), 0.08); /* Replaced giant border with subtle one */
+  }
+
+  /* Align content properly inside footer */
+  .cart__blocks {
+    width: 100% !important;
   }
 
   #main-cart-items, #main-cart-footer {
      padding: 0 !important;
   }
+  
+  /* Reset page widths inside sections to inherit from grid */
+  [id*="cart-items"] .page-width,
+  [id*="cart-footer"] .page-width {
+    padding: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+  }
 }
 
-/* Ensure sections are stacked on mobile */
+/* Mobile stacking */
 @media screen and (max-width: 989px) {
   body.template-cart .content-for-layout {
     display: block;
