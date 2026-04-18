@@ -279,6 +279,17 @@
               {{ form | payment_button }}
             </div>
           {%- endif -%}
+
+          {%- comment %} Trust Badge - Mercado Pago {%- endcomment %}
+          <div class="pnk-trust-badge" style="margin-top: 16px; padding: 12px; border: 1px solid #E0E0E0; border-radius: 8px; background: #fff; text-align: center;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span style="font-size: 0.85rem; font-weight: 700; color: #2D2D2D;">Compra 100% Segura</span>
+            </div>
+            <p style="font-size: 0.75rem; color: #757575; margin: 0; line-height: 1.3;">
+              Pagos respaldados por <strong>Mercado Pago</strong>
+            </p>
+          </div>
         </div>
       {%- endform -%}
     </product-form>

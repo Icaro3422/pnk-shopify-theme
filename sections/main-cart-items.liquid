@@ -17,6 +17,40 @@
       padding-bottom: {{ section.settings.padding_bottom }}px;
     }
   }
+
+  /* --- Mockup Carrito.html Integration --- */
+  .cart-items thead { display: none !important; }
+  .cart-items tbody { display: flex !important; flex-direction: column !important; }
+  tr.cart-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid #EEEEEE !important;
+    padding: 20px 0 !important;
+    gap: 20px !important;
+    margin: 0 !important;
+  }
+  tr.cart-item:last-child { border-bottom: none !important; }
+  
+  .cart-item > td { border: none !important; padding: 0 !important; }
+  .cart-item__media { width: 100px !important; flex-shrink: 0; }
+  .cart-item__media img { border-radius: 8px !important; }
+  
+  .cart-item__details { flex: 1 !important; }
+  .cart-item__name { font-size: 1rem !important; font-weight: 600 !important; color: #2D2D2D !important; text-decoration: none !important; }
+  .cart-item__name:hover { color: #E91E63 !important; }
+  
+  .cart-item__quantity { display: flex !important; align-items: center !important; }
+  
+  .cart-item__totals.small-hide { display: block !important; font-size: 1.1rem !important; font-weight: 700 !important; color: #E91E63 !important; }
+  
+  @media screen and (max-width: 749px) {
+    tr.cart-item { flex-wrap: wrap !important; }
+    .cart-item__media { width: 80px !important; }
+    .cart-item__quantity { width: 100% !important; justify-content: flex-start !important; margin-top: 10px !important; }
+    .cart-item__totals.small-hide { display: none !important; } 
+    .cart-item__totals.medium-hide { display: block !important; margin-left: auto; font-size: 1.1rem !important; font-weight: 700 !important; color: #E91E63 !important; }
+  }
 {%- endstyle -%}
 
 {%- unless settings.cart_type == 'drawer' -%}
@@ -25,19 +59,38 @@
 
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
 
-<cart-items class="gradient color-{{ section.settings.color_scheme }} isolate{% if cart == empty %} is-empty{% else %} section-{{ section.id }}-padding{% endif %}">
+<cart-items class="gradient color-{{ section.settings.color_scheme }} isolate{% if cart == empty %} is-empty{% else %} section-{{ section.id }}-padding{% endif %}" style="background-color: var(--gray-bg, #F9F9F9);">
   <div class="page-width">
+    
+    {%- comment %} Checkout Steps Navigation (Mockup match) {%- endcomment %}
+    <div class="checkout-steps-container" style="display: flex; justify-content: center; align-items: center; gap: 16px; margin: 20px 0 40px; font-size: 0.9rem; font-weight: 600; color: #bbb;">
+      <div class="checkout-step active" style="display: flex; gap: 8px; align-items: center; color: #E91E63;">
+        <span class="step-num" style="width: 24px; height: 24px; border-radius: 50%; background: #E91E63; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">1</span>
+        <span>Resumen de pedido</span>
+      </div>
+      <div class="checkout-step-line" style="width: 40px; height: 2px; background: #eee;"></div>
+      <div class="checkout-step" style="display: flex; gap: 8px; align-items: center;">
+         <span class="step-num" style="width: 24px; height: 24px; border-radius: 50%; background: #eee; color: #757575; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">2</span>
+         <span>Envío</span>
+      </div>
+      <div class="checkout-step-line" style="width: 40px; height: 2px; background: #eee;"></div>
+      <div class="checkout-step" style="display: flex; gap: 8px; align-items: center;">
+         <span class="step-num" style="width: 24px; height: 24px; border-radius: 50%; background: #eee; color: #757575; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">3</span>
+         <span>Pago</span>
+      </div>
+    </div>
+
     <div class="title-wrapper-with-link" style="margin-bottom: 2rem;">
-      <h1 class="title title--primary">{{ 'sections.cart.title' | t }}</h1>
-      <a href="{{ routes.all_products_collection_url }}" class="underlined-link">
+      <h1 class="title title--primary" style="font-size: 1.5rem; color: #2D2D2D;"><i class="fas fa-shopping-bag"></i> Tu Carrito</h1>
+      <a href="{{ routes.all_products_collection_url }}" class="underlined-link" style="font-weight: 600; color: #E91E63; text-decoration: none;">
         <i class="fas fa-arrow-left"></i> {{ 'general.continue_shopping' | t }}
       </a>
     </div>
 
     <div class="cart__warnings">
       <h1 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h1>
-      <a href="{{ routes.all_products_collection_url }}" class="button">
-        {{ 'general.continue_shopping' | t }}
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn-primary btn-lg" style="margin-top: 16px; border-radius: 50px;">
+        {{ 'general.continue_shopping' | t }} <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
       </a>
 
       {%- if shop.customer_accounts_enabled and customer == null -%}
@@ -49,7 +102,7 @@
     </div>
 
     <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart">
-      <div class="cart__items card" style="padding: 0; overflow: hidden;" id="main-cart-items" data-id="{{ section.id }}">
+      <div class="cart__items auth-card" style="padding: 24px; overflow: hidden; background: #fff; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.06);" id="main-cart-items" data-id="{{ section.id }}">
         <div class="js-contents">
           {%- if cart != empty -%}
             <table class="cart-items">
