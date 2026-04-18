@@ -86,7 +86,7 @@
 .pnk-header {
   position: sticky;
   top: 0;
-  z-index: 200;
+  z-index: 9990;
   background: #fff;
   border-bottom: 1px solid #f0d0d8;
   box-shadow: 0 1px 8px rgba(0,0,0,0.06);
@@ -338,7 +338,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.45);
-  z-index: 299;
+  z-index: 9998;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -358,7 +358,7 @@
   max-width: 100vw;
   height: calc(100vh - 100%); /* Takes rest of screen below header */
   background: #fff;
-  z-index: 300;
+  z-index: 9999;
   box-shadow: 0 10px 24px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
@@ -433,9 +433,15 @@
   padding-left: 30px;
 }
 
+.shopify-section-group-header-group,
+#shopify-section-header { 
+  z-index: 999999 !important; 
+}
+
 .pnk-mobile-nav__footer {
-  padding: 20px 24px 40px;
+  padding: 24px 24px 120px;
   border-top: 1px solid #f0d0d8;
+  padding-bottom: calc(120px + env(safe-area-inset-bottom));
 }
 
 .pnk-mobile-nav__account {
