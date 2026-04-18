@@ -1187,6 +1187,132 @@ button, input, select, textarea {
   align-items: center;
 }
 
+/* ============================================
+   DETALLES PNKWOW — PÁGINA DE PRODUCTO
+   ============================================ */
+
+/* Contenedor principal de información */
+.product__info-container {
+  padding: 8px 0;
+}
+
+/* Vendor / marca */
+.product__text.caption-with-letter-spacing {
+  font-size: 0.75rem;
+  color: var(--primary);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* Título del producto */
+.product__title h1 {
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--dark);
+}
+
+/* Precio */
+.price--large .price__regular .price-item--regular,
+.price--large .price-item {
+  font-size: 1.9rem !important;
+  font-weight: 800;
+  color: var(--primary) !important;
+}
+
+/* Precio tachado */
+.price--large .price__sale .price-item--regular {
+  font-size: 1.1rem !important;
+  color: var(--gray) !important;
+}
+
+/* Inventario */
+.product__inventory {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: #F1FBF2;
+  border: 1px solid #a5d6a7;
+  border-radius: 50px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--success);
+  margin-bottom: 4px;
+}
+
+/* SKU */
+.product__sku {
+  font-size: 0.78rem;
+  color: var(--gray);
+  letter-spacing: 0.3px;
+}
+
+/* Descripción */
+.product__description {
+  line-height: 1.75;
+  color: #555;
+  font-size: 0.95rem;
+  border-top: 1px solid var(--gray-light);
+  padding-top: 16px;
+  margin-top: 4px;
+}
+
+/* Tags del producto */
+.pnk-product-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 4px;
+}
+
+.pnk-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--primary-bg);
+  color: var(--primary);
+  border: 1px solid var(--primary-light);
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Sección de cantidad */
+.product-form__quantity {
+  margin-bottom: 4px;
+}
+
+/* Acordeones de info */
+.product__accordion.accordion details summary {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Imagen en galería — padding + fondo suave */
+.product__media-wrapper .media {
+  border-radius: var(--radius-lg);
+  background: #FFF5F5;
+}
+
+/* Botón "Ver detalles completos" — ocultar si es la página de detalle */
+.product__view-details {
+  display: none;
+}
+
+/* Ajustes móvil */
+@media screen and (max-width: 749px) {
+  .product__title h1 {
+    font-size: 1.4rem;
+  }
+  .price--large .price__regular .price-item--regular,
+  .price--large .price-item {
+    font-size: 1.5rem !important;
+  }
+}
+
+
 /* --- Secciones Home --- */
 .section-header {
   display: flex;
