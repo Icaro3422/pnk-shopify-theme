@@ -1,39 +1,507 @@
-<header class="header">
-  <div class="header-logo">
-    <a href="{{ routes.root_url }}" style="color: var(--primary); display: flex; align-items: center; height: 100%;">
-      <img src="{{ 'pnk-logo-v2.png' | asset_url }}" alt="{{ shop.name }}" style="height: 50px; width: auto;" width="4992" height="2675">
-    </a>
-  </div>
+{% comment %} PNK Header — Responsive (desktop + mobile drawer) {% endcomment %}
+<header class="pnk-header" id="PnkHeader">
+  <div class="pnk-header__inner">
 
-  <div class="header-search">
-    <form action="{{ routes.search_url }}" method="get" role="search">
-      <i class="fas fa-search"></i>
-      <input type="text" name="q" placeholder="Buscar accesorios..." aria-label="Buscar accessories">
+    {% comment %} Logo {% endcomment %}
+    <a href="{{ routes.root_url }}" class="pnk-header__logo" aria-label="{{ shop.name }}">
+      <img src="{{ 'pnk-logo-v2.png' | asset_url }}" alt="{{ shop.name }}" width="4992" height="2675" style="height:44px;width:auto;">
+    </a>
+
+    {% comment %} Search bar — hidden on mobile, visible on tablet+ {% endcomment %}
+    <form action="{{ routes.search_url }}" method="get" role="search" class="pnk-header__search">
+      <span class="pnk-header__search-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <input type="text" name="q" placeholder="Buscar accesorios..." aria-label="Buscar accesorios" class="pnk-header__search-input">
     </form>
+
+    {% comment %} Desktop nav {% endcomment %}
+    <nav class="pnk-header__nav" aria-label="Menú principal">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}" class="pnk-header__nav-link{% if link.active %} active{% endif %}">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+
+    {% comment %} Actions {% endcomment %}
+    <div class="pnk-header__actions">
+      {% comment %} Cart {% endcomment %}
+      <a href="{{ routes.cart_url }}" class="pnk-header__action-btn" aria-label="Carrito de compras">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        {%- if cart.item_count > 0 -%}
+          <span class="pnk-header__cart-badge">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </a>
+
+      {% comment %} Account — hide label on mobile {% endcomment %}
+      <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="pnk-header__account-btn" aria-label="Mi cuenta">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="pnk-header__account-label">Mi Cuenta</span>
+      </a>
+
+      {% comment %} Hamburger — only mobile {% endcomment %}
+      <button class="pnk-header__hamburger" id="PnkMenuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="PnkMobileNav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 
-  <nav class="header-nav">
-    {%- for link in section.settings.menu.links -%}
-      <a href="{{ link.url }}" class="{% if link.active %}active{% endif %}">
-        {{ link.title }}
-      </a>
-    {%- endfor -%}
-  </nav>
+  {% comment %} Mobile Nav Drawer {% endcomment %}
+  <div class="pnk-mobile-nav" id="PnkMobileNav" aria-hidden="true">
+    <div class="pnk-mobile-nav__overlay" id="PnkNavOverlay"></div>
+    <nav class="pnk-mobile-nav__drawer" aria-label="Menú móvil">
+      <div class="pnk-mobile-nav__header">
+        <img src="{{ 'pnk-logo-v2.png' | asset_url }}" alt="{{ shop.name }}" style="height:36px;width:auto;">
+        <button class="pnk-mobile-nav__close" id="PnkMenuClose" aria-label="Cerrar menú">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
 
-  <div class="header-actions">
-    <a href="{{ routes.cart_url }}" class="cart-icon" aria-label="Carrito">
-      <i class="fa-solid fa-bag-shopping"></i>
-      {%- if cart.item_count > 0 -%}
-        <span class="cart-badge">{{ cart.item_count }}</span>
-      {%- endif -%}
-    </a>
-    
-    <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="btn-my-account">
-      <i class="fa-solid fa-user"></i>
-      <span>Mi Cuenta</span>
-    </a>
+      {% comment %} Mobile search {% endcomment %}
+      <form action="{{ routes.search_url }}" method="get" role="search" class="pnk-mobile-nav__search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" name="q" placeholder="Buscar accesorios..." aria-label="Buscar">
+      </form>
+
+      <ul class="pnk-mobile-nav__links">
+        {%- for link in section.settings.menu.links -%}
+          <li>
+            <a href="{{ link.url }}" class="pnk-mobile-nav__link{% if link.active %} active{% endif %}">{{ link.title }}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <div class="pnk-mobile-nav__footer">
+        <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="pnk-mobile-nav__account">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          {% if customer %}{{ customer.first_name | default: 'Mi Cuenta' }}{% else %}Iniciar sesión{% endif %}
+        </a>
+      </div>
+    </nav>
   </div>
 </header>
+
+
+<style>
+/* ── PNK Header ── */
+.pnk-header {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: #fff;
+  border-bottom: 1px solid #f0d0d8;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+}
+
+.pnk-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  height: 64px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Logo */
+.pnk-header__logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Search */
+.pnk-header__search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f7f7f7;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 50px;
+  padding: 0 16px;
+  height: 40px;
+  transition: border-color 0.2s;
+  max-width: 480px;
+}
+
+.pnk-header__search:focus-within {
+  border-color: #E91E63;
+  background: #fff;
+}
+
+.pnk-header__search-icon {
+  color: #999;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.pnk-header__search-input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.88rem;
+  width: 100%;
+  color: #2D2D2D;
+}
+
+/* Desktop Nav */
+.pnk-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.pnk-header__nav-link {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #2D2D2D;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.pnk-header__nav-link:hover,
+.pnk-header__nav-link.active {
+  color: #E91E63;
+  background: #fff0f4;
+}
+
+/* Actions */
+.pnk-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.pnk-header__action-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #2D2D2D;
+  transition: all 0.2s;
+}
+
+.pnk-header__action-btn:hover {
+  background: #fff0f4;
+  color: #E91E63;
+}
+
+.pnk-header__cart-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #E91E63;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.pnk-header__account-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 14px 6px 10px;
+  border: 1.5px solid #e0c0cc;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2D2D2D;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.pnk-header__account-btn:hover {
+  border-color: #E91E63;
+  color: #E91E63;
+}
+
+/* Hamburger */
+.pnk-header__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.pnk-header__hamburger:hover {
+  background: #fff0f4;
+}
+
+.pnk-header__hamburger span {
+  display: block;
+  width: 22px;
+  height: 2.5px;
+  background: #2D2D2D;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Hamburger → X when open */
+.pnk-header__hamburger.open span:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+}
+.pnk-header__hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.pnk-header__hamburger.open span:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/* ── Mobile Nav Drawer ── */
+.pnk-mobile-nav {
+  display: none;
+}
+
+/* ── RESPONSIVE ── */
+@media screen and (max-width: 768px) {
+  .pnk-header__inner {
+    padding: 0 16px;
+    height: 58px;
+    gap: 8px;
+  }
+
+  /* Hide search bar on mobile */
+  .pnk-header__search {
+    display: none;
+  }
+
+  /* Hide desktop nav */
+  .pnk-header__nav {
+    display: none;
+  }
+
+  /* Hide account label on mobile */
+  .pnk-header__account-btn {
+    display: none;
+  }
+
+  /* Show hamburger */
+  .pnk-header__hamburger {
+    display: flex;
+  }
+
+  /* Show mobile drawer */
+  .pnk-mobile-nav {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .pnk-header__inner {
+    padding: 0 20px;
+  }
+
+  .pnk-header__nav {
+    gap: 2px;
+  }
+
+  .pnk-header__nav-link {
+    padding: 6px 8px;
+    font-size: 0.85rem;
+  }
+
+  .pnk-header__account-btn .pnk-header__account-label {
+    display: none;
+  }
+}
+
+/* ── Mobile Drawer Styles ── */
+.pnk-mobile-nav__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 299;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(2px);
+}
+
+.pnk-mobile-nav.open .pnk-mobile-nav__overlay {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.pnk-mobile-nav__drawer {
+  position: absolute; 
+  top: 100%; 
+  left: 0;
+  width: 100%;
+  max-width: 100vw;
+  height: calc(100vh - 100%); /* Takes rest of screen below header */
+  background: #fff;
+  z-index: 300;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  overflow-y: auto;
+  border-top: 1px solid #f0d0d8;
+}
+
+.pnk-mobile-nav.open .pnk-mobile-nav__drawer {
+  transform: translateX(0);
+}
+
+/* We don't need the internal close button or logo if it's placed right under the header */
+.pnk-mobile-nav__header {
+  display: none;
+}
+
+.pnk-mobile-nav__search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 20px;
+  background: #f7f7f7;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 50px;
+  padding: 0 16px;
+  height: 42px;
+}
+
+.pnk-mobile-nav__search:focus-within {
+  border-color: #E91E63;
+}
+
+.pnk-mobile-nav__search svg {
+  color: #999;
+  flex-shrink: 0;
+}
+
+.pnk-mobile-nav__search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 0.9rem;
+  width: 100%;
+  color: #2D2D2D;
+}
+
+.pnk-mobile-nav__links {
+  list-style: none;
+  padding: 8px 0;
+  flex: 1;
+}
+
+.pnk-mobile-nav__links li {
+  border-bottom: 1px solid #faf0f3;
+}
+
+.pnk-mobile-nav__link {
+  display: block;
+  padding: 16px 24px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #2D2D2D;
+  transition: all 0.2s;
+}
+
+.pnk-mobile-nav__link:hover,
+.pnk-mobile-nav__link.active {
+  color: #E91E63;
+  background: #fff5f7;
+  padding-left: 30px;
+}
+
+.pnk-mobile-nav__footer {
+  padding: 20px 24px 40px;
+  border-top: 1px solid #f0d0d8;
+}
+
+.pnk-mobile-nav__account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #2D2D2D;
+  padding: 10px 14px;
+  background: #fff0f4;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.pnk-mobile-nav__account:hover {
+  color: #E91E63;
+  background: #ffe0e8;
+}
+</style>
+
+<script>
+(function() {
+  var toggle = document.getElementById('PnkMenuToggle');
+  var close = document.getElementById('PnkMenuClose');
+  var overlay = document.getElementById('PnkNavOverlay');
+  var nav = document.getElementById('PnkMobileNav');
+
+  function openMenu() {
+    nav.classList.add('open');
+    nav.setAttribute('aria-hidden', 'false');
+    if (toggle) {
+      toggle.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+    }
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    nav.classList.remove('open');
+    nav.setAttribute('aria-hidden', 'true');
+    if (toggle) {
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    }
+    document.body.style.overflow = '';
+  }
+
+  if (toggle) {
+    toggle.addEventListener('click', function() {
+      if (nav.classList.contains('open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+  }
+
+  if (close) close.addEventListener('click', closeMenu);
+  if (overlay) overlay.addEventListener('click', closeMenu);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeMenu();
+  });
+})();
+</script>
 
 {% schema %}
 {

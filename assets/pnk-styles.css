@@ -3076,3 +3076,113 @@ button, input, select, textarea {
   font-size: 0.85rem;
   color: var(--gray);
 }
+
+/* ============================================
+   PNK RESPONSIVE OVERRIDES — Mobile First
+   ============================================ */
+
+/* Layout main-area override */
+.layout-public .main-area {
+  gap: 24px !important;
+  padding: 24px 24px 80px !important;
+  max-width: 1400px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+.layout-public .sidebar {
+  position: sticky !important;
+  top: 80px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Header old styles override */
+.header {
+  display: none !important; /* replaced by pnk-header */
+}
+
+/* btn-add-to-cart override for old sections */
+.btn-add-to-cart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 9px 16px;
+  background: #E91E63;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.btn-add-to-cart:hover {
+  background: #C2185B;
+  box-shadow: 0 3px 12px rgba(233,30,99,0.35);
+}
+
+/* ── MOBILE BREAKPOINTS ── */
+@media screen and (max-width: 768px) {
+  /* Layout */
+  .layout-public .main-area {
+    padding: 16px 12px 96px !important;
+    gap: 0 !important;
+  }
+
+  .layout-public .sidebar {
+    display: none !important;
+  }
+
+  .layout-public .content {
+    width: 100% !important;
+  }
+
+  /* Old products-grid override: 2 cols on mobile */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  /* Old product card: compact on mobile */
+  .product-card-body {
+    padding: 10px 10px 12px !important;
+  }
+
+  .product-card-name {
+    font-size: 0.82rem !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    display: -webkit-box !important;
+    overflow: hidden !important;
+  }
+
+  .product-card-price {
+    font-size: 0.95rem !important;
+  }
+
+  /* Section card padding */
+  .section-card {
+    padding: 0 !important;
+  }
+
+  /* Categories scroll: show 3 on mobile */
+  .categories-scroll {
+    padding-bottom: 8px !important;
+  }
+
+  .category-item {
+    min-width: 90px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  /* Extra small: tighter grid */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+}

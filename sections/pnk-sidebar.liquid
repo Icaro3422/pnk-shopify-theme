@@ -1,168 +1,385 @@
-<div class="sidebar">
-  <div class="sidebar-group">
-    <h3 class="sidebar-title">CATEGORÍAS</h3>
-    <ul class="sidebar-menu">
-      <li><a href="{{ routes.all_products_collection_url }}" class="active">Todos los productos</a></li>
-      <li><a href="{{ routes.collections_url }}/collares">Collares</a></li>
-      <li><a href="{{ routes.collections_url }}/pulseras">Pulseras</a></li>
-      <li><a href="{{ routes.collections_url }}/aretes">Aretes</a></li>
-      <li><a href="{{ routes.collections_url }}/anillos">Anillos</a></li>
-      <li><a href="{{ routes.collections_url }}/bolsos">Bolsos</a></li>
-      <li><a href="{{ routes.collections_url }}/accesorios-cabello">Accesorios Cabello</a></li>
-      <li><a href="{{ routes.collections_url }}/accesorios">Accesorios</a></li>
-    </ul>
+{% comment %} PNK Sidebar — Desktop lateral + Mobile drawer/bottom-sheet {% endcomment %}
+
+{% comment %} Mobile: floating filter button {% endcomment %}
+<button class="pnk-filter-fab" id="PnkFilterFab" aria-label="Abrir filtros" aria-expanded="false" aria-controls="PnkFilterDrawer">
+  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+  Filtros
+</button>
+
+{% comment %} Mobile overlay {% endcomment %}
+<div class="pnk-filter-overlay" id="PnkFilterOverlay"></div>
+
+{% comment %} Sidebar / Drawer content {% endcomment %}
+<div class="pnk-filter-drawer" id="PnkFilterDrawer" aria-hidden="true">
+  <div class="pnk-filter-drawer__handle"></div>
+
+  <div class="pnk-filter-drawer__header">
+    <span class="pnk-filter-drawer__title">Filtrar</span>
+    <button class="pnk-filter-drawer__close" id="PnkFilterClose" aria-label="Cerrar filtros">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
   </div>
 
-  <div class="sidebar-group">
-    <h3 class="sidebar-title">FILTRAR POR PRECIO</h3>
-    <div class="price-filter">
-      <div class="price-inputs-vertical">
-        <div class="field">
-          <span class="field-currency">$</span>
-          <input type="number" placeholder="0" min="0" value="0">
+  <div class="pnk-filter-drawer__body">
+    <div class="pnk-filter-group">
+      <h3 class="pnk-filter-group__title">CATEGORÍAS</h3>
+      <ul class="pnk-filter-group__menu">
+        <li><a href="{{ routes.all_products_collection_url }}" class="{% if request.path == routes.all_products_collection_url %}is-active{% endif %}">Todos los productos</a></li>
+        <li><a href="{{ routes.collections_url }}/collares">Collares</a></li>
+        <li><a href="{{ routes.collections_url }}/pulseras">Pulseras</a></li>
+        <li><a href="{{ routes.collections_url }}/aretes">Aretes</a></li>
+        <li><a href="{{ routes.collections_url }}/anillos">Anillos</a></li>
+        <li><a href="{{ routes.collections_url }}/bolsos">Bolsos</a></li>
+        <li><a href="{{ routes.collections_url }}/accesorios-cabello">Accesorios Cabello</a></li>
+        <li><a href="{{ routes.collections_url }}/accesorios">Accesorios</a></li>
+      </ul>
+    </div>
+
+    <div class="pnk-filter-group">
+      <h3 class="pnk-filter-group__title">PRECIO</h3>
+      <div class="pnk-price-filter">
+        <div class="pnk-price-field">
+          <span class="pnk-price-field__symbol">$</span>
+          <input type="number" id="PriceMin" placeholder="0" min="0" value="0" aria-label="Precio mínimo">
         </div>
-        <div class="field">
-          <span class="field-currency">$</span>
-          <input type="number" placeholder="20000" min="0" value="20000">
+        <span class="pnk-price-field__sep">—</span>
+        <div class="pnk-price-field">
+          <span class="pnk-price-field__symbol">$</span>
+          <input type="number" id="PriceMax" placeholder="200000" min="0" value="200000" aria-label="Precio máximo">
         </div>
-        <button class="btn-apply-filter">
-          Aplicar filtro
-        </button>
       </div>
+      <button class="pnk-filter-apply" id="PnkApplyFilter">Aplicar filtro</button>
     </div>
   </div>
 </div>
 
 <style>
-  .sidebar {
-    padding: 24px;
-    background: var(--white);
-    border-radius: var(--radius-lg);
-  }
+/* ── Sidebar: Desktop layout ── */
+.pnk-filter-drawer {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 100%;
+}
 
-  .sidebar-group {
-    margin-bottom: 40px;
-  }
+.pnk-filter-drawer__handle,
+.pnk-filter-drawer__header .pnk-filter-drawer__close {
+  display: none;
+}
 
-  .sidebar-title {
+.pnk-filter-drawer__header {
+  display: none;
+}
+
+/* FAB hidden on desktop */
+.pnk-filter-fab {
+  display: none;
+}
+
+.pnk-filter-overlay {
+  display: none;
+}
+
+/* Filter groups */
+.pnk-filter-group {
+  margin-bottom: 32px;
+}
+
+.pnk-filter-group__title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #999;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0e0e5;
+  position: relative;
+}
+
+.pnk-filter-group__title::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 36px;
+  height: 2px;
+  background: #E91E63;
+}
+
+.pnk-filter-group__menu {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pnk-filter-group__menu a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #2D2D2D;
+  transition: all 0.2s;
+}
+
+.pnk-filter-group__menu a:hover,
+.pnk-filter-group__menu a.is-active {
+  color: #E91E63;
+  background: #fff0f4;
+}
+
+.pnk-filter-group__menu a.is-active {
+  font-weight: 700;
+}
+
+/* Price filter */
+.pnk-price-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.pnk-price-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f7f7f7;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 0 12px;
+  height: 44px;
+  transition: border-color 0.2s;
+}
+
+.pnk-price-field:focus-within {
+  border-color: #E91E63;
+  background: #fff;
+}
+
+.pnk-price-field__symbol {
+  color: #999;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.pnk-price-field input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2D2D2D;
+  -moz-appearance: textfield;
+}
+
+.pnk-price-field input::-webkit-outer-spin-button,
+.pnk-price-field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.pnk-price-field__sep {
+  color: #ccc;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.pnk-filter-apply {
+  width: 100%;
+  background: #E91E63;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.pnk-filter-apply:hover {
+  background: #C2185B;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(233,30,99,0.3);
+}
+
+/* ── MOBILE ── */
+@media screen and (max-width: 768px) {
+  /* Floating Action Button */
+  .pnk-filter-fab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #E91E63;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
     font-size: 0.9rem;
     font-weight: 700;
-    color: var(--gray);
-    letter-spacing: 0.05rem;
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--gray-light);
-    width: 100%;
-    position: relative;
-    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 150;
+    box-shadow: 0 4px 20px rgba(233,30,99,0.45);
+    transition: all 0.2s;
+    white-space: nowrap;
   }
 
-  .sidebar-title::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 60px;
-    height: 2px;
-    background: var(--primary);
+  .pnk-filter-fab:active {
+    transform: translateX(-50%) scale(0.96);
   }
 
-  .sidebar-menu li {
-    margin-bottom: 12px;
-  }
-
-  .sidebar-menu a {
-    font-size: 1.05rem;
-    font-weight: 500;
-    color: var(--dark);
+  /* Overlay */
+  .pnk-filter-overlay {
     display: block;
-    padding: 4px 0;
-    transition: var(--transition);
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 299;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(2px);
   }
 
-  .sidebar-menu a:hover, .sidebar-menu a.active {
-    color: var(--primary);
+  .pnk-filter-overlay.open {
+    opacity: 1;
+    pointer-events: all;
   }
 
-  .price-inputs-vertical {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%; /* Ensure container is full width */
+  /* Drawer — bottom sheet on mobile */
+  .pnk-filter-drawer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 78vh;
+    border-radius: 20px 20px 0 0;
+    padding: 0 0 32px;
+    z-index: 300;
+    overflow-y: auto;
+    transform: translateY(100%);
+    transition: transform 0.36s cubic-bezier(0.32, 0.72, 0, 1);
+    box-shadow: 0 -4px 30px rgba(0,0,0,0.15);
   }
 
-  .price-inputs-vertical .field {
+  .pnk-filter-drawer.open {
+    transform: translateY(0);
+  }
+
+  .pnk-filter-drawer[aria-hidden="false"] {
+    transform: translateY(0);
+  }
+
+  /* Handle drag indicator */
+  .pnk-filter-drawer__handle {
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: #ddd;
+    border-radius: 2px;
+    margin: 12px auto 0;
+  }
+
+  /* Header inside drawer */
+  .pnk-filter-drawer__header {
     display: flex;
     align-items: center;
-    background: var(--white);
-    border: 1px solid var(--gray-light);
-    border-radius: 8px;
-    padding: 0 16px;
-    height: 48px;
-    transition: var(--transition);
-    width: 100%; /* Take full width */
-    box-sizing: border-box; /* Include padding/border in width */
+    justify-content: space-between;
+    padding: 14px 20px 12px;
+    border-bottom: 1px solid #f0e0e5;
   }
 
-  .price-inputs-vertical .field:focus-within {
-    border-color: var(--primary);
-    outline: none;
-    box-shadow: none; /* Removed shadow as requested */
-  }
-
-  .field-currency {
-    color: var(--gray);
+  .pnk-filter-drawer__title {
+    font-size: 1.05rem;
     font-weight: 700;
-    font-size: 1rem;
-    margin-right: 10px;
+    color: #2D2D2D;
   }
 
-  .price-inputs-vertical input {
+  .pnk-filter-drawer__close {
+    display: flex;
+    background: none;
     border: none;
-    width: 100%;
-    font-size: 1rem;
-    font-weight: 600;
-    outline: none;
-    color: var(--dark);
-    padding: 0;
-    appearance: none;
-    -moz-appearance: textfield;
-    background: transparent;
-    box-shadow: none !important;
-  }
-
-  .price-inputs-vertical input:focus {
-    box-shadow: none !important;
-    outline: none !important;
-  }
-
-  .price-inputs-vertical input::-webkit-outer-spin-button,
-  .price-inputs-vertical input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  .btn-apply-filter {
-    background: var(--primary);
-    color: var(--white);
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
-    font-weight: 700;
-    font-size: 1rem;
     cursor: pointer;
-    transition: var(--transition);
-    text-align: center;
-    width: 100%;
-    margin-top: 5px;
+    padding: 6px;
+    border-radius: 8px;
+    color: #757575;
+    transition: all 0.2s;
   }
 
-  .btn-apply-filter:hover {
-    background: var(--primary-dark);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow);
+  .pnk-filter-drawer__close:hover {
+    background: #fff0f4;
+    color: #E91E63;
   }
+
+  .pnk-filter-drawer__body {
+    padding: 20px 20px 8px;
+  }
+
+  /* Hide original desktop sidebar in main layout on mobile */
+  .layout-public .sidebar {
+    display: none !important;
+  }
+}
 </style>
+
+<script>
+(function() {
+  var fab = document.getElementById('PnkFilterFab');
+  var overlay = document.getElementById('PnkFilterOverlay');
+  var drawer = document.getElementById('PnkFilterDrawer');
+  var closeBtn = document.getElementById('PnkFilterClose');
+  var applyBtn = document.getElementById('PnkApplyFilter');
+
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  function openFilters() {
+    if (!isMobile()) return;
+    drawer.classList.add('open');
+    overlay.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    fab.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFilters() {
+    drawer.classList.remove('open');
+    overlay.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    if (fab) fab.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  if (fab) fab.addEventListener('click', openFilters);
+  if (overlay) overlay.addEventListener('click', closeFilters);
+  if (closeBtn) closeBtn.addEventListener('click', closeFilters);
+
+  if (applyBtn) {
+    applyBtn.addEventListener('click', function() {
+      var min = document.getElementById('PriceMin') ? document.getElementById('PriceMin').value : 0;
+      var max = document.getElementById('PriceMax') ? document.getElementById('PriceMax').value : 200000;
+      var params = new URLSearchParams(window.location.search);
+      params.set('filter.v.price.gte', min);
+      params.set('filter.v.price.lte', max);
+      window.location.href = window.location.pathname + '?' + params.toString();
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeFilters();
+  });
+})();
+</script>
 
 {% schema %}
 {
