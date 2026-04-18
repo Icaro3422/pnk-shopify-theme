@@ -1451,5 +1451,42 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "Ventas al por Mayor",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Configuración de Mayoreo"
+      },
+      {
+        "type": "checkbox",
+        "id": "wholesale_enabled",
+        "label": "Habilitar opciones de mayoreo",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "wholesale_threshold",
+        "label": "Umbral de cantidad (unidades)",
+        "default": 100
+      },
+      {
+        "type": "image_picker",
+        "id": "wholesale_qr",
+        "label": "Código QR de pago"
+      },
+      {
+        "type": "richtext",
+        "id": "wholesale_bank_details",
+        "label": "Datos bancarios de transferencia",
+        "default": "<p>Nombre: PNK Store<br>Banco: Bancolombia<br>Cuenta: Ahorros 123-456789-00</p>"
+      },
+      {
+        "type": "url",
+        "id": "wholesale_whatsapp_url",
+        "label": "Link de WhatsApp para Mayoreo"
+      }
+    ]
   }
 ]
