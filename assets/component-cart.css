@@ -221,57 +221,42 @@ cart-items {
     gap: 1rem;
   }
 @media screen and (min-width: 990px) {
-  /* Force side-by-side layout on MainContent for cart */
+  /* Force side-by-side layout on MainContent for cart and center it */
   main#MainContent.template-cart {
-    display: flex !important;
-    flex-wrap: nowrap !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 850px) 380px !important;
+    grid-template-areas: 
+      "items footer"
+      "extra extra" !important;
     gap: 40px !important;
-    align-items: flex-start !important;
-    padding: 20px 5rem 60px !important;
-    max-width: var(--page-width);
+    justify-content: center !important;
+    padding: 40px 20px !important; /* Reduced padding from 5rem to avoid squishing on smaller screens */
+    max-width: 1300px !important; /* Constrain wide screens */
     margin: 0 auto !important;
   }
 
   /* Cart Items (Left Column) */
   div[id*="cart-items"] {
-    flex: 1 1 0% !important;
-    width: auto !important;
+    grid-area: items;
+    width: 100% !important;
     min-width: 0 !important;
   }
 
   /* Cart Footer (Right Column) */
   div[id*="cart-footer"] {
-    flex: 0 0 400px !important;
-    width: 400px !important;
+    grid-area: footer;
+    width: 100% !important;
     position: sticky !important;
     top: 100px;
     z-index: 2;
   }
 
   /* Handle sections below the cart (like featured collection) */
-  /* These need to be forced to full width if they wrap, but since we used flex-nowrap on MainContent, 
-     if there are more than 2 sections, they will overflow. 
-     Better approach: wrap the first two sections in a div. 
-     But I can't easily change the theme structure. 
-     Instead, I'll use grid but with explicit areas.
-  */
-}
-
-/* Fallback to grid with defined areas for extra sections */
-@media screen and (min-width: 990px) {
-  main#MainContent.template-cart {
-    display: grid !important;
-    grid-template-columns: 1fr 400px !important;
-    grid-template-areas: 
-      "items footer"
-      "extra extra";
-    gap: 40px !important;
-    padding: 40px 5rem !important;
+  div[id*="featured-collection"] {
+    grid-area: extra;
+    width: 100%;
+    margin-top: 60px;
   }
-
-  div[id*="cart-items"] { grid-area: items; }
-  div[id*="cart-footer"] { grid-area: footer; }
-  div[id*="featured-collection"] { grid-area: extra; }
 
   .cart__footer {
      width: 100% !important;
@@ -280,6 +265,14 @@ cart-items {
      border-radius: 12px;
      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
      border: 1px solid #f0f0f0;
+  }
+
+  /* Reset internal page widths to inherit from grid column */
+  [id*="cart-items"] .page-width,
+  [id*="cart-footer"] .page-width {
+    padding: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
   }
 }
 
