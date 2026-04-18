@@ -92,7 +92,7 @@ cart-items {
   position: absolute;
   line-height: 1;
   height: 1.8rem;
-  top: -3rem;
+  top: -2rem;
   color: rgba(var(--color-foreground), 0.75);
 }
 
@@ -104,6 +104,7 @@ cart-items {
 }
 
 .cart__note .text-area {
+  min-height: 4rem;
   resize: vertical;
 }
 
@@ -173,7 +174,7 @@ cart-items {
 }
 
 .cart__blocks > * + * {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .cart-note__label {
@@ -183,7 +184,7 @@ cart-items {
 }
 
 .tax-note {
-  margin: 2.2rem 0 1.6rem auto;
+  margin: 1rem 0 0.8rem auto;
   text-align: center;
   display: block;
 }
