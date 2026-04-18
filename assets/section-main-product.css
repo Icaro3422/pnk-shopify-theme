@@ -1502,3 +1502,36 @@ a.product__text {
     border: none;
   }
 }
+
+/* ── PNK Action Buttons Polish ── */
+.shopify-payment-button__button--unbranded {
+  border-radius: 50px !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+  background-color: #E91E63 !important;
+  color: #fff !important;
+  min-height: 46px !important; /* Forces consistent height */
+}
+
+.shopify-payment-button__button--unbranded:after {
+  display: none !important;
+}
+
+.pnk-add-to-cart {
+  height: 46px !important;
+  min-height: 46px !important;
+  padding: 0 24px !important;
+}
+
+.pnk-wishlist-btn {
+  height: 46px !important;
+  width: 46px !important;
+  min-height: 46px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
