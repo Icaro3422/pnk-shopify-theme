@@ -25,13 +25,16 @@
       <h3 class="pnk-filter-group__title">CATEGORÍAS</h3>
       <ul class="pnk-filter-group__menu">
         <li><a href="{{ routes.all_products_collection_url }}" class="{% if request.path == routes.all_products_collection_url %}is-active{% endif %}">Todos los productos</a></li>
-        <li><a href="{{ routes.collections_url }}/collares">Collares</a></li>
-        <li><a href="{{ routes.collections_url }}/pulseras">Pulseras</a></li>
-        <li><a href="{{ routes.collections_url }}/aretes">Aretes</a></li>
-        <li><a href="{{ routes.collections_url }}/anillos">Anillos</a></li>
-        <li><a href="{{ routes.collections_url }}/bolsos">Bolsos</a></li>
-        <li><a href="{{ routes.collections_url }}/accesorios-cabello">Accesorios Cabello</a></li>
-        <li><a href="{{ routes.collections_url }}/accesorios">Accesorios</a></li>
+        {%- for link in section.settings.category_menu.links -%}
+          {%- assign collection = link.object -%}
+          {%- if link.type == 'collection_link' -%}
+            {%- if collection.all_products_count > 0 -%}
+              <li><a href="{{ link.url }}" class="{% if link.active or link.child_active %}is-active{% endif %}">{{ link.title }}</a></li>
+            {%- endif -%}
+          {%- else -%}
+            <li><a href="{{ link.url }}" class="{% if link.active or link.child_active %}is-active{% endif %}">{{ link.title }}</a></li>
+          {%- endif -%}
+        {%- endfor -%}
       </ul>
     </div>
 
