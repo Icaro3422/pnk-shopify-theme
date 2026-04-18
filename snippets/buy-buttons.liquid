@@ -264,7 +264,7 @@
               data-product-id="{{ product.id }}"
               data-product-title="{{ product.title | escape }}"
               data-product-url="{{ product.url }}"
-              data-product-image="{{ product.featured_image | img_url: '100x100' }}"
+              data-product-image="{{ product.featured_image | image_url: width: 100 }}"
               data-product-price="{{ product.price | money }}"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

@@ -15,14 +15,14 @@
 {%- endstyle -%}
 
 {%- if section.settings.enable_shop_login_button == false -%}
-  {%- assign hide_shop_login_button = true -%}
+
 {%- endif -%}
 
 <div class="auth-wrapper">
   <div class="customer login auth-card">
     
     <div class="auth-logo">
-      <img src="{{ 'pnk-logo-v2.png' | asset_url }}" alt="PNK" style="width:100%;max-width:140px;height:auto;margin:0 auto;display:block;">
+      <img src="{{ 'pnk-logo-v2.png' | asset_url }}" alt="PNK" width="140" height="50" style="width:100%;max-width:140px;height:auto;margin:0 auto;display:block;">
     </div>
 
     <div id="recover-form" style="display:none;" class="auth-box">
