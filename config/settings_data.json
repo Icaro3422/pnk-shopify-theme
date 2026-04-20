@@ -120,8 +120,11 @@
     "show_vendor": false,
     "show_cart_note": true,
     "cart_drawer_collection": "",
+    "wholesale_enabled": true,
+    "wholesale_threshold": 99,
     "wholesale_qr": "shopify://shop_images/WhatsApp_Image_2026-04-18_at_07.47.37.jpg",
     "wholesale_bank_details": "<p>Nequi 3235233565<br/>Bancolombia ahorros 32524211873</p><p>Davivienda ahorros 488452808634</p>",
+    "wholesale_whatsapp_url": "https://wa.me/573044858595",
     "checkout_accent_color": "#E91E63",
     "checkout_button_color": "#E91E63",
     "sections": {
