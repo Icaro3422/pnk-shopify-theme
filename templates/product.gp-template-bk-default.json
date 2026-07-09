@@ -8,108 +8,22 @@
  * ------------------------------------------------------------
  */
 {
+  "order": [
+    "main",
+    "custom_liquid_UUQ4iA"
+  ],
   "sections": {
-    "main": {
-      "type": "main-product",
-      "blocks": {
-        "custom_liquid_HKqNhA": {
-          "type": "custom_liquid",
-          "settings": {
-            "custom_liquid": "{% unless product.has_only_default_variant %}\n\n<div class=\"pnk-prosa-selector\">\n  <p class=\"pnk-title\">Elige tu tipo de Prosa ✨</p>\n\n  {% for variant in product.variants %}\n    <button\n      type=\"button\"\n      class=\"pnk-prosa-btn {% if variant.id == product.selected_or_first_available_variant.id %}pnk-active{% endif %}\"\n      onclick=\"window.location.href='{{ product.url }}?variant={{ variant.id }}'\"\n    >\n      {{ variant.title }}\n    </button>\n  {% endfor %}\n</div>\n\n<style>\n.pnk-title {\n  font-weight: 700;\n  margin-bottom: 10px;\n}\n\n.pnk-prosa-btn {\n  display: block;\n  width: 100%;\n  margin-bottom: 8px;\n  padding: 12px;\n  border: 1px solid #ff2f73;\n  border-radius: 20px;\n  background: white;\n  cursor: pointer;\n}\n\n.pnk-prosa-btn.pnk-active {\n  background: #ff2f73;\n  color: white;\n  font-weight: 700;\n}\n</style>\n\n{% endunless %}"
-          }
-        },
-        "vendor": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
-          }
-        },
-        "title": {
-          "type": "title",
-          "settings": {}
-        },
-        "caption": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.metafields.descriptors.subtitle.value }}",
-            "text_style": "subtitle"
-          }
-        },
-        "price": {
-          "type": "price",
-          "settings": {}
-        },
-        "inventory": {
-          "type": "inventory",
-          "settings": {
-            "text_style": "body",
-            "inventory_threshold": 10,
-            "show_inventory_quantity": true
-          }
-        },
-        "sku": {
-          "type": "sku",
-          "settings": {
-            "text_style": "subtitle"
-          }
-        },
-        "variant_picker": {
-          "type": "variant_picker",
-          "settings": {
-            "picker_type": "button",
-            "swatch_shape": "circle"
-          }
-        },
-        "quantity_selector": {
-          "type": "quantity_selector",
-          "settings": {}
-        },
-        "buy_buttons": {
-          "type": "buy_buttons",
-          "settings": {
-            "show_dynamic_checkout": true,
-            "show_gift_card_recipient": false
-          }
-        },
-        "description": {
-          "type": "description",
-          "settings": {}
-        },
-        "collapsible-row-0": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Ingredientes",
-            "icon": "leaf",
-            "content": "<p><br/>Fórmula 4 en 1 diseñada para aportar longitud, definición, volumen y una mirada más intensa<br/><br/></p>",
-            "page": ""
-          }
-        },
-        "collapsible-row-1": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Cómo usar",
-            "icon": "lipstick",
-            "content": "",
-            "page": ""
-          }
-        },
-        "collapsible-row-2": {
-          "type": "collapsible_tab",
-          "settings": {
-            "heading": "Envío y devoluciones",
-            "icon": "truck",
-            "content": "",
-            "page": ""
-          }
-        },
-        "share": {
-          "type": "share",
-          "settings": {
-            "share_label": "Compartir"
-          }
-        }
+    "custom_liquid_UUQ4iA": {
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "color_scheme": "",
+        "custom_liquid": "<div class=\"pnk-kit\">\n  <p class=\"pnk-kit-title\">Elige 3 variedades ✨</p>\n  <p class=\"pnk-kit-count\">Seleccionadas: <span id=\"pnk-count\">0</span>/3</p>\n\n  <div class=\"pnk-kit-options\">\n    {% for variant in product.variants %}\n      <button\n        type=\"button\"\n        class=\"pnk-kit-btn\"\n        data-id=\"{{ variant.id }}\"\n      >\n        {{ variant.title }}\n      </button>\n    {% endfor %}\n  </div>\n\n  <button type=\"button\" id=\"pnk-kit-cart\" disabled>\n    Elige 3 variedades\n  </button>\n</div>\n\n<style>\n.pnk-kit {\n  margin: 20px 0;\n}\n\n.pnk-kit-title {\n  font-weight: 700;\n  font-size: 18px;\n  margin-bottom: 5px;\n}\n\n.pnk-kit-count {\n  font-size: 14px;\n  margin-bottom: 12px;\n}\n\n.pnk-kit-btn {\n  width: 100%;\n  padding: 13px;\n  margin-bottom: 8px;\n  border: 1px solid #ff2f73;\n  border-radius: 22px;\n  background: white;\n  cursor: pointer;\n}\n\n.pnk-kit-btn.selected {\n  background: #ff2f73;\n  color: white;\n  font-weight: 700;\n}\n\n#pnk-kit-cart {\n  width: 100%;\n  padding: 15px;\n  margin-top: 12px;\n  border: 0;\n  border-radius: 22px;\n  background: #ff2f73;\n  color: white;\n  font-weight: 700;\n  cursor: pointer;\n}\n\n#pnk-kit-cart:disabled {\n  opacity: .45;\n  cursor: not-allowed;\n}\n</style>\n\n<script>\n(function () {\n  const buttons = document.querySelectorAll('.pnk-kit-btn');\n  const count = document.getElementById('pnk-count');\n  const cart = document.getElementById('pnk-kit-cart');\n\n  let selected = [];\n\n  buttons.forEach(button => {\n    button.addEventListener('click', function () {\n      const id = this.dataset.id;\n\n      if (selected.includes(id)) {\n        selected = selected.filter(item => item !== id);\n        this.classList.remove('selected');\n      } else {\n        if (selected.length >= 3) return;\n\n        selected.push(id);\n        this.classList.add('selected');\n      }\n\n      count.textContent = selected.length;\n\n      if (selected.length === 3) {\n        cart.disabled = false;\n        cart.textContent = 'Agregar kit al carrito';\n      } else {\n        cart.disabled = true;\n        cart.textContent = 'Elige ' + (3 - selected.length) + ' variedades más';\n      }\n    });\n  });\n\n  cart.addEventListener('click', async function () {\n    if (selected.length !== 3) return;\n\n    cart.disabled = true;\n    cart.textContent = 'Agregando...';\n\n    const items = selected.map(id => ({\n      id: Number(id),\n      quantity: 1\n    }));\n\n    await fetch('/cart/add.js', {\n      method: 'POST',\n      headers: {\n        'Content-Type': 'application/json'\n      },\n      body: JSON.stringify({ items })\n    });\n\n    window.location.href = '/cart';\n  });\n})();\n</script>",
+        "padding_bottom": 52,
+        "padding_top": 40
       },
+      "type": "custom-liquid"
+    },
+    "main": {
       "block_order": [
         "custom_liquid_HKqNhA",
         "vendor",
@@ -127,35 +41,121 @@
         "collapsible-row-2",
         "share"
       ],
+      "blocks": {
+        "buy_buttons": {
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": false
+          },
+          "type": "buy_buttons"
+        },
+        "caption": {
+          "settings": {
+            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text_style": "subtitle"
+          },
+          "type": "text"
+        },
+        "collapsible-row-0": {
+          "settings": {
+            "content": "<p><br/>Fórmula 4 en 1 diseñada para aportar longitud, definición, volumen y una mirada más intensa<br/><br/></p>",
+            "heading": "Ingredientes",
+            "icon": "leaf",
+            "page": ""
+          },
+          "type": "collapsible_tab"
+        },
+        "collapsible-row-1": {
+          "settings": {
+            "content": "",
+            "heading": "Cómo usar",
+            "icon": "lipstick",
+            "page": ""
+          },
+          "type": "collapsible_tab"
+        },
+        "collapsible-row-2": {
+          "settings": {
+            "content": "",
+            "heading": "Envío y devoluciones",
+            "icon": "truck",
+            "page": ""
+          },
+          "type": "collapsible_tab"
+        },
+        "custom_liquid_HKqNhA": {
+          "settings": {
+            "custom_liquid": "{% unless product.has_only_default_variant %}\n\n<div class=\"pnk-prosa-selector\">\n  <p class=\"pnk-title\">Elige tu tipo de Prosa ✨</p>\n\n  {% for variant in product.variants %}\n    <button\n      type=\"button\"\n      class=\"pnk-prosa-btn {% if variant.id == product.selected_or_first_available_variant.id %}pnk-active{% endif %}\"\n      onclick=\"window.location.href='{{ product.url }}?variant={{ variant.id }}'\"\n    >\n      {{ variant.title }}\n    </button>\n  {% endfor %}\n</div>\n\n<style>\n.pnk-title {\n  font-weight: 700;\n  margin-bottom: 10px;\n}\n\n.pnk-prosa-btn {\n  display: block;\n  width: 100%;\n  margin-bottom: 8px;\n  padding: 12px;\n  border: 1px solid #ff2f73;\n  border-radius: 20px;\n  background: white;\n  cursor: pointer;\n}\n\n.pnk-prosa-btn.pnk-active {\n  background: #ff2f73;\n  color: white;\n  font-weight: 700;\n}\n</style>\n\n{% endunless %}"
+          },
+          "type": "custom_liquid"
+        },
+        "description": {
+          "settings": {},
+          "type": "description"
+        },
+        "inventory": {
+          "settings": {
+            "inventory_threshold": 10,
+            "show_inventory_quantity": true,
+            "text_style": "body"
+          },
+          "type": "inventory"
+        },
+        "price": {
+          "settings": {},
+          "type": "price"
+        },
+        "quantity_selector": {
+          "settings": {},
+          "type": "quantity_selector"
+        },
+        "share": {
+          "settings": {
+            "share_label": "Compartir"
+          },
+          "type": "share"
+        },
+        "sku": {
+          "settings": {
+            "text_style": "subtitle"
+          },
+          "type": "sku"
+        },
+        "title": {
+          "settings": {},
+          "type": "title"
+        },
+        "variant_picker": {
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle"
+          },
+          "type": "variant_picker"
+        },
+        "vendor": {
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          },
+          "type": "text"
+        }
+      },
       "settings": {
-        "enable_sticky_info": true,
         "color_scheme": "",
-        "media_size": "large",
         "constrain_to_viewport": true,
-        "media_fit": "contain",
-        "gallery_layout": "thumbnail_slider",
-        "mobile_thumbnails": "show",
-        "media_position": "left",
-        "image_zoom": "lightbox",
-        "hide_variants": true,
+        "enable_sticky_info": true,
         "enable_video_looping": false,
-        "padding_top": 36,
-        "padding_bottom": 12
-      }
-    },
-    "custom_liquid_UUQ4iA": {
-      "type": "custom-liquid",
-      "name": "t:sections.custom-liquid.presets.name",
-      "settings": {
-        "custom_liquid": "<div class=\"pnk-kit\">\n  <p class=\"pnk-kit-title\">Elige 3 variedades ✨</p>\n  <p class=\"pnk-kit-count\">Seleccionadas: <span id=\"pnk-count\">0</span>/3</p>\n\n  <div class=\"pnk-kit-options\">\n    {% for variant in product.variants %}\n      <button\n        type=\"button\"\n        class=\"pnk-kit-btn\"\n        data-id=\"{{ variant.id }}\"\n      >\n        {{ variant.title }}\n      </button>\n    {% endfor %}\n  </div>\n\n  <button type=\"button\" id=\"pnk-kit-cart\" disabled>\n    Elige 3 variedades\n  </button>\n</div>\n\n<style>\n.pnk-kit {\n  margin: 20px 0;\n}\n\n.pnk-kit-title {\n  font-weight: 700;\n  font-size: 18px;\n  margin-bottom: 5px;\n}\n\n.pnk-kit-count {\n  font-size: 14px;\n  margin-bottom: 12px;\n}\n\n.pnk-kit-btn {\n  width: 100%;\n  padding: 13px;\n  margin-bottom: 8px;\n  border: 1px solid #ff2f73;\n  border-radius: 22px;\n  background: white;\n  cursor: pointer;\n}\n\n.pnk-kit-btn.selected {\n  background: #ff2f73;\n  color: white;\n  font-weight: 700;\n}\n\n#pnk-kit-cart {\n  width: 100%;\n  padding: 15px;\n  margin-top: 12px;\n  border: 0;\n  border-radius: 22px;\n  background: #ff2f73;\n  color: white;\n  font-weight: 700;\n  cursor: pointer;\n}\n\n#pnk-kit-cart:disabled {\n  opacity: .45;\n  cursor: not-allowed;\n}\n</style>\n\n<script>\n(function () {\n  const buttons = document.querySelectorAll('.pnk-kit-btn');\n  const count = document.getElementById('pnk-count');\n  const cart = document.getElementById('pnk-kit-cart');\n\n  let selected = [];\n\n  buttons.forEach(button => {\n    button.addEventListener('click', function () {\n      const id = this.dataset.id;\n\n      if (selected.includes(id)) {\n        selected = selected.filter(item => item !== id);\n        this.classList.remove('selected');\n      } else {\n        if (selected.length >= 3) return;\n\n        selected.push(id);\n        this.classList.add('selected');\n      }\n\n      count.textContent = selected.length;\n\n      if (selected.length === 3) {\n        cart.disabled = false;\n        cart.textContent = 'Agregar kit al carrito';\n      } else {\n        cart.disabled = true;\n        cart.textContent = 'Elige ' + (3 - selected.length) + ' variedades más';\n      }\n    });\n  });\n\n  cart.addEventListener('click', async function () {\n    if (selected.length !== 3) return;\n\n    cart.disabled = true;\n    cart.textContent = 'Agregando...';\n\n    const items = selected.map(id => ({\n      id: Number(id),\n      quantity: 1\n    }));\n\n    await fetch('/cart/add.js', {\n      method: 'POST',\n      headers: {\n        'Content-Type': 'application/json'\n      },\n      body: JSON.stringify({ items })\n    });\n\n    window.location.href = '/cart';\n  });\n})();\n</script>",
-        "color_scheme": "",
-        "padding_top": 40,
-        "padding_bottom": 52
-      }
+        "gallery_layout": "thumbnail_slider",
+        "hide_variants": true,
+        "image_zoom": "lightbox",
+        "media_fit": "contain",
+        "media_position": "left",
+        "media_size": "large",
+        "mobile_thumbnails": "show",
+        "padding_bottom": 12,
+        "padding_top": 36
+      },
+      "type": "main-product"
     }
-  },
-  "order": [
-    "main",
-    "custom_liquid_UUQ4iA"
-  ]
+  }
 }
