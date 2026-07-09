@@ -1,0 +1,76 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "pnk_hero": {
+      "type": "pnk-hero",
+      "settings": {
+        "title": "Accesorios con Actitud ♥",
+        "subtitle": "Descubre nuestra nueva colección de accesorios diseñados para resaltar tu estilo único.",
+        "button_label": "Ver Colección",
+        "button_link": "shopify:\/\/collections\/all",
+        "bg_color_1": "#E91E63",
+        "bg_color_2": "#FF6F91"
+      }
+    },
+    "pnk_featured": {
+      "type": "pnk-featured-products",
+      "settings": {
+        "title": "Productos Destacados",
+        "limit": 4,
+        "show_badge": true,
+        "button_label": "Ver todos",
+        "button_link": "shopify:\/\/collections\/all"
+      }
+    },
+    "pnk_new": {
+      "type": "pnk-featured-products",
+      "settings": {
+        "title": "Lo Más Nuevo",
+        "limit": 4,
+        "show_badge": true,
+        "button_label": "Ver todos",
+        "button_link": "shopify:\/\/collections\/all"
+      }
+    },
+    "pnk_testimonials": {
+      "type": "pnk-testimonials",
+      "blocks": {
+        "t1": {
+          "type": "testimonial",
+          "settings": {
+            "text": "¡Me encantaron los accesorios! La calidad es increíble y el envío fue rapidísimo. Definitivamente volveré a comprar.",
+            "author": "María González."
+          }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "text": "Hermosos diseños, son el complemento perfecto para cualquier outfit.",
+            "author": "Luisa Pérez."
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2"
+      ],
+      "settings": {
+        "title": "Lo que dicen nuestras clientas"
+      }
+    }
+  },
+  "order": [
+    "pnk_hero",
+    "pnk_featured",
+    "pnk_new",
+    "pnk_testimonials"
+  ]
+}
