@@ -149,8 +149,8 @@
     },
     "content_for_index": [],
     "blocks": {
-      "9722070057798483667": {
-        "type": "shopify://apps/multivariants-bulk-order/blocks/app-embed/e556349f-fd26-4006-9dd9-dcbf70aa55b3",
+      "pagefly-page-builder": {
+        "type": "shopify://apps/pagefly-page-builder/blocks/app-embed/83e179f7-59a0-4589-8c66-c0dddf959200",
         "disabled": false,
         "settings": {}
       }
